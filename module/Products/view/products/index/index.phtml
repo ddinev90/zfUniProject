@@ -1,0 +1,40 @@
+<?php
+// module/Product/view/product/product/index.phtml:
+
+$title = 'My products';
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<p>
+    <a class="label label-success" href="<?= $this->url('products', ['action' => 'add']) ?>">Add new product</a>
+</p>
+
+<table class="table table-hover">
+<thead>
+<tr>
+    <th> ID </th>
+    <th>Name</th>
+    <th>Color</th>
+    <th>Size</th>
+    <th>Price</th>
+    <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach ($products as $product) : ?>
+    <tr class="table-info">
+      <th scope="row"><?= $this->escapeHtml($product->Id) ?></th>
+      <td><?= $this->escapeHtml($product->Name) ?></td>
+      <td><?= $this->escapeHtml($product->Color) ?></td>
+      <td><?= $this->escapeHtml($product->Size) ?></td>
+      <td><?= $this->escapeHtml($product->Price) ?></td>
+      <td>
+      <a class="label label-info" href="<?php echo $this->url('products',
+             array('action'=>'edit', 'id' => $product->Id));?>">Edit</a>
+         <a class="label label-danger" href="<?php echo $this->url('products',
+             array('action'=>'delete', 'id' => $product->Id));?>">Delete</a>
+        </td>
+    </tr>
+<?php endforeach; ?>
+</tbody>
+</table>

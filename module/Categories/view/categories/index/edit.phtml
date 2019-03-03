@@ -1,0 +1,16 @@
+<?php
+// module/Categories/view/category/category/add.phtml:
+
+$title = 'Edit category';
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+$form->setAttribute('action', $this->url('categories', ['action' => 'add']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('id'));
+echo $this->formRow($form->get('categoryName'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();
