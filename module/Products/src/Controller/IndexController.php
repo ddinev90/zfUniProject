@@ -12,7 +12,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Products\Form\ProductsForm;
 use Products\Model\Products;
-
+use Zend\Session\Container;
+use Zend\Cache\StorageFactory;
+use Zend\Session\SessionManager;
 class IndexController extends AbstractActionController
 {
     // Add this property:
@@ -25,12 +27,21 @@ class IndexController extends AbstractActionController
     }
     public function indexAction()
     {
-        return new ViewModel([
+        $container = new Container('loginCookies');
+        $value = $container->logged;
+        if($value){
+            return new ViewModel([
             'products' => $this->table->fetchAll(),
-        ]);
+         ]);
+        }else{
+            return $this->redirect()->toUrl('/user/login');
+        }
     }
     public function addAction()
     {
+        $container = new Container('loginCookies');
+        $value = $container->logged;
+        if($value){
         $form = new ProductsForm();
         $form->get('submit')->setValue('Add');
 
@@ -50,10 +61,16 @@ class IndexController extends AbstractActionController
         $product->exchangeArray($form->getData());
         $this->table->saveProduct($product);
         return $this->redirect()->toRoute('products');
+    }else{
+        return $this->redirect()->toUrl('/user/login');
+    }
     }
 
     public function editAction()
     {
+        $container = new Container('loginCookies');
+        $value = $container->logged;
+        if($value){
         $Id = (int) $this->params()->fromRoute('id',0);
     
         try{
@@ -80,10 +97,16 @@ class IndexController extends AbstractActionController
         }
         $this->table->update($post);
         return $this->redirect()->toRoute('products');
+    }else{
+        return $this->redirect()->toUrl('/user/login');
+    }
     }
 
     public function deleteAction()
     {
+        $container = new Container('loginCookies');
+        $value = $container->logged;
+        if($value){
         $Id = (int) $this->params()->fromRoute('id',0);
         try{
             $this->table->deleteProduct($Id);
@@ -92,5 +115,8 @@ class IndexController extends AbstractActionController
             exit('Error');
         }
         return $this->redirect()->toRoute('products');
+    }else{
+        return $this->redirect()->toUrl('/user/login');
+    }
     }
 }

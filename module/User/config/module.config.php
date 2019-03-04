@@ -10,6 +10,7 @@ namespace User;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\Session\SessionManager;
 
 return [
     'router' => [
@@ -29,6 +30,9 @@ return [
                 ],
             ],
         ],
+    ],
+    'session_containers' => [
+        'loginCookies'
     ],
     'view_manager' => [
         'display_not_found_reason' => true,

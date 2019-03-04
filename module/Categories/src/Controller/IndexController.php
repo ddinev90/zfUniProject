@@ -25,12 +25,22 @@ class IndexController extends AbstractActionController
     }
     public function indexAction()
     {
+        $container = new Container('loginCookies');
+        $value = $container->logged;
+        if($value){
         return new ViewModel([
             'categories' => $this->table->fetchAll(),
         ]);
+    }else{
+        return $this->redirect()->toUrl('/user/login');
+    }
+
     }
     public function addAction()
     {
+        $container = new Container('loginCookies');
+        $value = $container->logged;
+        if($value){
         $form = new CategoriesForm();
         $form->get('submit')->setValue('Add');
 
@@ -50,11 +60,16 @@ class IndexController extends AbstractActionController
         $category->exchangeArray($form->getData());
         $this->table->saveCategory($category);
         return $this->redirect()->toRoute('categories');
-        
+    }else{
+        return $this->redirect()->toUrl('/user/login'); 
+    }
     }
 
     public function editAction()
     {
+        $container = new Container('loginCookies');
+        $value = $container->logged;
+        if($value){
         $Id = (int) $this->params()->fromRoute('id',0);
     
         try{
@@ -81,10 +96,16 @@ class IndexController extends AbstractActionController
         }
         $this->table->update($post);
         return $this->redirect()->toRoute('categories');
+    }else{
+        return $this->redirect()->toUrl('/user/login'); 
+    }
     }
 
     public function deleteAction()
     {
+        $container = new Container('loginCookies');
+        $value = $container->logged;
+        if($value){
         $Id = (int) $this->params()->fromRoute('id',0);
         try{
             $this->table->deleteCategory($Id);
@@ -93,5 +114,8 @@ class IndexController extends AbstractActionController
             exit('Error');
         }
         return $this->redirect()->toRoute('categories');
+    }else{
+        return $this->redirect()->toUrl('/user/login'); 
+    }
     }
 }
