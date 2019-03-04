@@ -33,11 +33,9 @@ class UserTable
         return $row;
     }
     public function validateUser($user){
-        $data = [
-            'user_email'  => $user->user_email,
-            'user_password'  => $user->user_password
-        ];
-        $email = $data->user_email;
+        $email = $user->user_email;
+        $password = $user->user_password;
+
         $rowset = $this->tableGateway->select(['user_email'=>$email]);
         $row = $rowset->current();
         if(!$row){

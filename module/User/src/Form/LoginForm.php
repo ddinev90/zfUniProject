@@ -8,26 +8,15 @@ class LoginForm extends Form
     function __construct($name = null){
         parent::__construct('post');
         $this->setAttribute('method','POST');
-        
+        $this->add([
+            'name'=> 'id',
+            'type'=>'hidden'
+        ]);
         $this->add([
             'name'=> 'user_email',
             'type'=>'text',
             'options'=> [
                 'label' => 'Email'
-            ]
-        ]);
-        $this->add([
-            'name'=> 'user_role',
-            'type'=>'text',
-            'options'=> [
-                'label' => 'Role'
-            ]
-        ]);
-        $this->add([
-            'name'=> 'user_status',
-            'type'=>'text',
-            'options'=> [
-                'label' => 'Status'
             ]
         ]);
         $this->add([

@@ -23,10 +23,10 @@ $this->headTitle($title);
 <?php foreach ($users as $user) : ?>
     <tr class="table-info">
     <tr class="table-info">
-      <th scope="row"><?= $this->escapeHtml($user->Id) ?></th>
-      <td><?= $this->escapeHtml($user->Name) ?></td>
-      <td><?= $this->escapeHtml($user->Telephone) ?></td>
-      <td><?= $this->escapeHtml($user->Email) ?></td>
+      <th scope="row"><?= $this->escapeHtml($user->id) ?></th>
+      <td><?= $this->escapeHtml($user->user_role) ?></td>
+      <td><?= $this->escapeHtml($user->user_status) ?></td>
+      <td><?= $this->escapeHtml($user->user_email) ?></td>
       <td>
             <a class="label label-info" href="<?= $this->url('user', ['action' => 'edit', 'id' => $user->Id]) ?>">Edit</a>
             <a class="label label-danger" href="<?= $this->url('user', ['action' => 'delete', 'id' => $user->Id]) ?>">Delete</a>

@@ -13,6 +13,8 @@ use Zend\View\Model\ViewModel;
 use User\Model\User;
 use User\Form\UserForm;
 use User\Form\LoginForm;
+use Zend\Session\Container;
+use Zend\Cache\StorageFactory;
 
 class IndexController extends AbstractActionController
 {
@@ -29,17 +31,25 @@ class IndexController extends AbstractActionController
         $form = new LoginForm();
         $form->get('submit')->setValue('Login');
         $request = $this->getRequest();
-        if ($request->isPost()) {
-            if ($form->isValid($form->setData($request->getPost()))) {
-                if ($this->_process($form->getData())) {
-                    // We're authenticated! Redirect to the home page
-                    $this->_helper->redirector('index', 'index');
-                }
-            }
-        }
         if (!$request->isPost()) {
             return ['form' => $form];
         }
+            $user = new User();
+            $form->setData($request->getPost());
+            if (!$form->isValid()) {
+                return ['form' => $form];
+            }
+            $user->exchangeArray($form->getData());
+                if ($this->table->validateUser($user)) {
+                    // We're authenticated! Redirect to the home page and add a token/cache ....unsuccessfully
+                    // $cache  = new Zend\Cache\Storage\Adapter\Apc();
+                    // $cache->getOptions()->setTtl(3600);
+                    // $cache->setItem("role", $user->user_role);
+                    // $user_session = new Container('myToken');
+                    // $user_session->role=$user->user_role;
+                    return $this->redirect('/module/user/index');
+              }
+              return $this->redirect('/module/user/login');
      }
     public function indexAction()
     {
@@ -110,15 +120,5 @@ class IndexController extends AbstractActionController
             exit('Error');
         }
         return $this->redirect()->toRoute('users');
-    }
-    protected function _process($values)
-    {
-        $auth = Zend_Auth::getInstance();
-        if ($result->isValid()) {
-            $user = $adapter->getResultRowObject();
-            $auth->getStorage()->write($user);
-            return false;
-        }
-        return false;
     }
 }
