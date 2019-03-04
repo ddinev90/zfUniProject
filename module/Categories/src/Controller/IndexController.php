@@ -12,7 +12,9 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Categories\Form\CategoriesForm;
 use Categories\Model\Categories;
-
+use Zend\Session\Container;
+use Zend\Cache\StorageFactory;
+use Zend\Session\SessionManager;
 class IndexController extends AbstractActionController
 {
     // Add this property:
