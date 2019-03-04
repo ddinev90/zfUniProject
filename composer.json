@@ -33,7 +33,7 @@
     "autoload": {
         "psr-4": {
            
-            "Users\\":"module/Users/src/",
+            "User\\":"module/User/src/",
             "Categories\\":"module/Categories/src/",
             "Products\\":"module/Products/src/",
             "Shop\\": "module/Shop/src/"

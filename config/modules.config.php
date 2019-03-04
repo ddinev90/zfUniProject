@@ -17,7 +17,7 @@ return [
     'Zend\Router',
     'Zend\Validator',
     'Shop',
-    'Users',
+    'User',
     'Categories',
     'Products',
 ];

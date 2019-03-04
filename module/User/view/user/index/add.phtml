@@ -1,0 +1,19 @@
+<?php
+// module/Users/view/category/category/add.phtml:
+
+$title = 'Add new user';
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?php
+$form->setAttribute('action', $this->url('user', ['action' => 'add']));
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('id'));
+echo $this->formRow($form->get('user_email'));
+echo $this->formRow($form->get('user_role'));
+echo $this->formRow($form->get('user_status'));
+echo $this->formRow($form->get('user_password'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();

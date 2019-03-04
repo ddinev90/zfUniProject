@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 03, 2019 at 09:37 PM
+-- Generation Time: Mar 03, 2019 at 05:58 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.14
 
@@ -48,65 +48,28 @@ INSERT INTO `category` (`id`, `categoryName`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `log`
---
-
-DROP TABLE IF EXISTS `log`;
-CREATE TABLE IF NOT EXISTS `log` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `date_log` datetime NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`,`date_log`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `product`
 --
 
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE IF NOT EXISTS `product` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Category_Id` int(11) NOT NULL,
   `Name` varchar(50) NOT NULL,
   `Color` varchar(50) NOT NULL,
   `Price` varchar(50) NOT NULL,
   `Size` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`Id`),
+  KEY `Category_Id` (`Category_Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `product`
 --
 
-INSERT INTO `product` (`Id`, `Name`, `Color`, `Price`, `Size`) VALUES
-(2, 'test', 'blue', '50', 'xl'),
-(5, 'test', 'blue', '200', '14'),
-(7, 'test', 'blue', '14', '14');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `productcategory`
---
-
-DROP TABLE IF EXISTS `productcategory`;
-CREATE TABLE IF NOT EXISTS `productcategory` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `ProductId` int(11) DEFAULT NULL,
-  `CategoryId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `ProductId` (`ProductId`),
-  KEY `CategoryId` (`CategoryId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `productcategory`
---
-
-INSERT INTO `productcategory` (`Id`, `ProductId`, `CategoryId`) VALUES
-(1, 2, 1);
+INSERT INTO `product` (`Id`, `Category_Id`, `Name`, `Color`, `Price`, `Size`) VALUES
+(2, 1, 'test', 'blue', '50', 'xl'),
+(5, 1, 'test', 'blue', '200', '14');
 
 -- --------------------------------------------------------
 
@@ -163,9 +126,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   `Telephone` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
   `RoleId` int(11) NOT NULL,
-  `pwd_reset_token` varchar(32) DEFAULT NULL,
-  `pwd_reset_token_creation_date` datetime DEFAULT NULL,
-  `date_created` datetime DEFAULT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Email` (`Email`),
   KEY `RoleId` (`RoleId`)
@@ -175,37 +135,32 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`Id`, `Name`, `Email`, `Telephone`, `Password`, `RoleId`, `pwd_reset_token`, `pwd_reset_token_creation_date`, `date_created`) VALUES
-(1, 'Pesho', 'pesho@test.com', '0000', 'test1', 1, NULL, NULL, NULL),
-(2, 'Gosho', 'gosho@gosho.com', '0000', '1234', 1, NULL, NULL, NULL);
+INSERT INTO `users` (`Id`, `Name`, `Email`, `Telephone`, `Password`, `RoleId`) VALUES
+(1, 'Pesho', 'pesho@test.com', '0000', 'test1', 1),
+(2, 'Gosho', 'gosho@gosho.com', '0000', '1234', 1);
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `log`
+-- Constraints for table `product`
 --
-ALTER TABLE `log`
-  ADD CONSTRAINT `log_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `product`
+  ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`Category_Id`) REFERENCES `category` (`id`);
 
 --
 -- Constraints for table `roles`
 --
 ALTER TABLE `roles`
-  ADD CONSTRAINT `roles_ibfk_1` FOREIGN KEY (`Id`) REFERENCES `userroles` (`RoleId`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `roles_ibfk_1` FOREIGN KEY (`Id`) REFERENCES `userroles` (`RoleId`);
 
 --
 -- Constraints for table `userroles`
 --
 ALTER TABLE `userroles`
-  ADD CONSTRAINT `userroles_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `userroles_ibfk_2` FOREIGN KEY (`RoleId`) REFERENCES `users` (`RoleId`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
-
-ALTER TABLE `productcategory`
-  ADD CONSTRAINT `productcategory_ibfk_1` FOREIGN KEY (`ProductId`) REFERENCES `product` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `productcategory_ibfk_2` FOREIGN KEY (`CategoryId`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `userroles_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`),
+  ADD CONSTRAINT `userroles_ibfk_2` FOREIGN KEY (`RoleId`) REFERENCES `users` (`RoleId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,0 +1,11 @@
+<h2>Login Form</h2>
+<?php
+$form->setAttribute('action', $this->url('user', ['action' => 'index']));
+$form->prepare();
+echo $this->form()->openTag($form);
+
+echo $this->formRow($form->get('user_email'));
+echo $this->formRow($form->get('user_password'));
+echo $this->formSubmit($form->get('submit'));
+echo $this->form()->closeTag();
+?>

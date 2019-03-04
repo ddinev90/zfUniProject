@@ -1,0 +1,36 @@
+<?php
+// module/user/view/user/user/index.phtml:
+
+$title = 'My Users';
+$this->headTitle($title);
+?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<p>
+    <a class="label label-success" href="<?= $this->url('user', ['action' => 'add']) ?>">Add new user</a>
+</p>
+
+<table class="table table-hover">
+<thead>
+<tr>
+    <th> ID </th>
+    <th>Name</th>
+    <th>Telephone</th>
+    <th>Email</th>
+    <th>Actions</th>
+</tr>
+</thead>
+<tbody>
+<?php foreach ($users as $user) : ?>
+    <tr class="table-info">
+    <tr class="table-info">
+      <th scope="row"><?= $this->escapeHtml($user->Id) ?></th>
+      <td><?= $this->escapeHtml($user->Name) ?></td>
+      <td><?= $this->escapeHtml($user->Telephone) ?></td>
+      <td><?= $this->escapeHtml($user->Email) ?></td>
+      <td>
+            <a class="label label-info" href="<?= $this->url('user', ['action' => 'edit', 'id' => $user->Id]) ?>">Edit</a>
+            <a class="label label-danger" href="<?= $this->url('user', ['action' => 'delete', 'id' => $user->Id]) ?>">Delete</a>
+        </td>
+<?php endforeach; ?>
+</tbody>
+</table>
