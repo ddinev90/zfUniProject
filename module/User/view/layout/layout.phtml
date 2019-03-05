@@ -1,5 +1,36 @@
 <?= $this->doctype() ?>
-
+<?php
+                
+                $adminString = '
+                <div id="topMenu" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="shop">Shop</a></li>
+                    <li class=""><a href="categories">Categories</a></li>
+                    <li class=""><a href="products">Products</a></li>
+                    <li class=""><a href="user")>Users</a></li>
+                    <li class=""><a href="user\logout">Logout</a></li>
+                    
+                </ul>
+                </div>    
+                ';
+                            
+                $userString = '
+                <div id="topMenu" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class=""><a href="shop">Shop</a></li>
+                   
+                    <li class=""><a href="user\logout">Logout</a></li>
+                    
+                </ul>
+                </div>    
+                ';
+                use Zend\Session\Container;
+                use Zend\Session\SessionManager;
+                $container = new Container('loginCookies');
+                $value = $container->logged;
+                $admin = $container->role;
+                
+                ?>
 <html lang="en">
     <head>
         <meta charset="utf-8">
@@ -34,16 +65,15 @@
                     </button>
                    
                 </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
-                        <li class=""><a href="<?= $this->url('shop') ?>">Shop</a></li>
-                        <li class=""><a href="<?= $this->url('categories') ?>">Categories</a></li>
-                        <li class=""><a href="<?= $this->url('products') ?>">Products</a></li>
-                        <li class=""><a href="<?= $this->url('user') ?>">Users</a></li>
-                        <li class=""><a href="<?= $this->url('user', ['action' => 'logout']) ?>">Logout</a></li>
-                        
-                    </ul>
-                </div>
+               <?php
+               if($value && $admin){
+                echo ($adminString);   
+               }
+              else if($value){
+                echo($userString);     
+                }
+            
+               ?>
             </div>
         </nav>
         <div class="container">
@@ -56,3 +86,4 @@
         <?= $this->inlineScript() ?>
     </body>
 </html>
+

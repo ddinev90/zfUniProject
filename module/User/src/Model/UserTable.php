@@ -32,6 +32,20 @@ class UserTable
 
         return $row;
     }
+    public function setPriviliges($user){
+        $email = $user->user_email;
+        $password = $user->user_password;
+
+        $rowset = $this->tableGateway->select(['user_email'=>$email]);
+        $row = $rowset->current();
+        if(!$row){
+            throw new RuntimeException(sprintf(
+                'User with this email doesnt exist %d',
+                $email
+            ));
+        }
+        return $row->user_role;
+    }
     public function validateUser($user){
         $email = $user->user_email;
         $password = $user->user_password;

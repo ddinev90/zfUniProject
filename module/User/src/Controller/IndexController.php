@@ -31,6 +31,7 @@ class IndexController extends AbstractActionController
      {
         $sessionContainer = new Container('loginCookies');
         unset($sessionContainer->logged);
+        unset($sessionContainer->role);
         return $this->redirect()->toUrl('/user/login');
      }
      public function loginAction()
@@ -51,6 +52,7 @@ class IndexController extends AbstractActionController
 
                     $sessionContainer = new Container('loginCookies');
                     $sessionContainer->logged = true;
+                    $sessionContainer->role = $this->table->setPriviliges($user);
                     return $this->redirect('/module/user/index');
               }
               return $this->redirect()->toUrl('/user/login');
