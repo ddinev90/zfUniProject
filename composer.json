@@ -31,8 +31,7 @@
         "zendframework/zend-authentication": "^2.6"
     },
     "autoload": {
-        "psr-4": {
-           
+        "psr-4": {        
             "User\\":"module/User/src/",
             "Categories\\":"module/Categories/src/",
             "Products\\":"module/Products/src/",
