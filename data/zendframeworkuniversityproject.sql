@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 03, 2019 at 05:58 PM
+-- Generation Time: Mar 05, 2019 at 12:40 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.2.14
 
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `categoryName` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `category`
@@ -42,8 +42,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 INSERT INTO `category` (`id`, `categoryName`) VALUES
 (1, 'Jeans'),
 (2, 'TShirts'),
-(3, 'Jumpers'),
-(4, 'test');
+(3, 'Jumpers');
 
 -- --------------------------------------------------------
 
@@ -74,70 +73,26 @@ INSERT INTO `product` (`Id`, `Category_Id`, `Name`, `Color`, `Price`, `Size`) VA
 -- --------------------------------------------------------
 
 --
--- Table structure for table `roles`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `roles`;
-CREATE TABLE IF NOT EXISTS `roles` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_password` varchar(50) NOT NULL,
+  `user_role` varchar(50) NOT NULL,
+  `user_status` varchar(50) NOT NULL,
+  `user_email` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `roles`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `roles` (`Id`, `Name`) VALUES
-(1, 'admin');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `userroles`
---
-
-DROP TABLE IF EXISTS `userroles`;
-CREATE TABLE IF NOT EXISTS `userroles` (
-  `UserId` int(11) NOT NULL AUTO_INCREMENT,
-  `RoleId` int(11) NOT NULL,
-  PRIMARY KEY (`UserId`),
-  KEY `RoleId` (`RoleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `userroles`
---
-
-INSERT INTO `userroles` (`UserId`, `RoleId`) VALUES
-(1, 1);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` varchar(50) NOT NULL,
-  `Email` varchar(50) NOT NULL,
-  `Telephone` varchar(50) NOT NULL,
-  `Password` varchar(50) NOT NULL,
-  `RoleId` int(11) NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Email` (`Email`),
-  KEY `RoleId` (`RoleId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `users`
---
-
-INSERT INTO `users` (`Id`, `Name`, `Email`, `Telephone`, `Password`, `RoleId`) VALUES
-(1, 'Pesho', 'pesho@test.com', '0000', 'test1', 1),
-(2, 'Gosho', 'gosho@gosho.com', '0000', '1234', 1);
+INSERT INTO `user` (`id`, `user_password`, `user_role`, `user_status`, `user_email`) VALUES
+(1, 'test', '0', '1', 'test@test.com'),
+(2, 'test', '1', '0', 'admin@test.com');
 
 --
 -- Constraints for dumped tables
@@ -148,19 +103,6 @@ INSERT INTO `users` (`Id`, `Name`, `Email`, `Telephone`, `Password`, `RoleId`) V
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_ibfk_1` FOREIGN KEY (`Category_Id`) REFERENCES `category` (`id`);
-
---
--- Constraints for table `roles`
---
-ALTER TABLE `roles`
-  ADD CONSTRAINT `roles_ibfk_1` FOREIGN KEY (`Id`) REFERENCES `userroles` (`RoleId`);
-
---
--- Constraints for table `userroles`
---
-ALTER TABLE `userroles`
-  ADD CONSTRAINT `userroles_ibfk_1` FOREIGN KEY (`UserId`) REFERENCES `users` (`Id`),
-  ADD CONSTRAINT `userroles_ibfk_2` FOREIGN KEY (`RoleId`) REFERENCES `users` (`RoleId`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
